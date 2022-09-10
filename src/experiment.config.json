@@ -1,0 +1,19 @@
+{
+    "任务脑电":[{
+            "name":"选择性注意","script":"./vs_eeg.py","args":[{"name":"block数目"},{"name":"刺激/块"}]
+        },{
+            "name":"持续性注意","script":"./cpt_eeg.py","args":[{"name":"block数目"},{"name":"刺激/块"},{"name":"目标刺激数"}]
+        },{
+            "name":"执行控制","script":"./oct_eeg.py","args":[{"name":"block数目"},{"name":"刺激/块"}]
+        }
+    ],
+    "认知范式":[{
+            "name":"选择性注意","script":"./vs.py"
+        },{
+            "name":"持续性注意","script":"./cpt.py"
+        },{
+            "name":"执行控制","script":"./oct.py"
+        }
+    ]
+}
+
