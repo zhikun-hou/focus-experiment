@@ -1,23 +1,28 @@
 {
   "name": "focus-experiments",
   "private": true,
-  "version": "2.1.0",
-  "author":"Hou ZhiKun",
+  "version": "3.0.0",
+  "author": "ZhiKun Hou",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "electron .",
-    "dist":"electron-builder --win --x64"
+    "test": "npm run build && npm run start",
+    "start": "chcp 65001 && electron .",
+    "dist": "chcp 65001 && electron-builder --win --x64"
   },
   "dependencies": {
     "element-plus": "^2.2.9",
+    "exceljs": "^4.3.0",
+    "html-pdf": "^3.0.1",
+    "sqlite": "^4.1.2",
+    "sqlite3": "^5.0.11",
     "vue": "^3.2.25"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.3",
-    "electron": "^19.0.8",
-    "electron-builder": "^22.10.5",
+    "electron": "^20.2.0",
+    "electron-builder": "^23.5.1",
     "vite": "^2.9.9"
   },
   "build": {
@@ -27,19 +32,27 @@
     "directories": {
       "output": "output"
     },
-    "extraResources":[{
-      "from":"./src/tasks",
-      "to":"../src/tasks"
-    },{
-      "from":"./使用说明.md",
-      "to":"../使用说明.md"
-    },{
-      "from":"./src/PsychoPy",
-      "to":"../src/PsychoPy"
-    },{
-      "from":"./src/experiment.config.json",
-      "to":"../src/experiment.config.json"
-    }
+    "extraResources": [
+      {
+        "from": "./src/tasks",
+        "to": "../src/tasks"
+      },
+      {
+        "from": "./src/PsychoPy",
+        "to": "../src/PsychoPy"
+      },
+      {
+        "from": "./src/scales",
+        "to": "../src/scales"
+      },
+      {
+        "from": "./用户FAQ.md",
+        "to": "../用户FAQ.md"
+      },
+      {
+        "from": "./experiment.config.json",
+        "to": "../experiment.config.json"
+      }
     ],
     "win": {
       "icon": "./src/icon.png",

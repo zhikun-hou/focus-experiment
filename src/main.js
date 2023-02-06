@@ -8,13 +8,18 @@ const app = createApp(App)
 import ElementPlus from 'element-plus'
 import zhCN from 'element-plus/es/locale/lang/zh-cn'
 import 'element-plus/dist/index.css'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 app.use(ElementPlus,{
     locale: zhCN,
+    size:"large"
 })
+for(const [key,component] of Object.entries(ElementPlusIconsVue)){
+    app.component(key,component)
+}
 
 /*  全局配置文件  */
-import CONFIG from "../experiment.config"
+const CONFIG = require("../experiment.config")
 app.config.globalProperties.config = CONFIG
 
 /*  启动！ */

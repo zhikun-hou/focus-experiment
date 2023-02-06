@@ -1,0 +1,18 @@
+[
+    {
+        "question":"你的性别?",
+        "answer":[
+            {"text":"男","value":1},
+            {"text":"女","value":0}
+        ]
+    },
+    {
+        "question":"你的年龄?",
+        "answer":[
+            {"text":"18岁以下","value":0},
+            {"text":"18到25岁","value":1},
+            {"text":"25到60岁","value":2},
+            {"text":"60岁以上","value":3}
+        ]
+    }
+]

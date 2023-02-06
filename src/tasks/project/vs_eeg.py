@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2022.2.2),
-    on 七月 29, 2022, at 22:05
+This experiment was created using PsychoPy3 Experiment Builder (v2022.2.4),
+    on 九月 18, 2022, at 23:59
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -32,13 +32,9 @@ from psychopy.hardware import keyboard
 #创建变量时不需要$，引用时才需要
 
 
-# 参数接收模块 #bnu
-# 在PsychoPy Builder中测试时注释掉sys.argv并手动输入参数
-RECORD_NAME = sys.argv[1]
-DATA_ROOT = sys.argv[2]
-SUBJECT_NAME = sys.argv[3]
-BLOCK_NUMS = int(sys.argv[4])
-BLOCK_TRIALS = int(sys.argv[5])
+
+BLOCK_NUMS = CONFIG["BLOCK_NUMS"]
+BLOCK_TRIALS = CONFIG["BLOCK_TRIALS"]
 
 # 脑电连接模块 bnu
 import socket
@@ -79,8 +75,7 @@ experiment_rest_text = "请休息一下，当您觉得状态恢复良好时\n可
 experiment_end_text = "实验结束，感谢参与\n按空格退出"
 
 # CONDITIONAL FLAG
-experiment_stage = "before_experiment"
-experiment_block_idx = 1
+experiment_stage = "before_experiment
 
 # PRACTICE CONFIG
 practice_repeats = 8
@@ -89,7 +84,6 @@ practice_idx = 0
 # EXPERIMENT CONFIG
 experiment_block_nums = BLOCK_NUMS#bnu
 experiment_block_trials = BLOCK_TRIALS#bnu
-experiment_idx = 0
 
 
 
@@ -108,7 +102,7 @@ order_mapping = ["f","j","j","f"]
 _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 # Store info about the experiment session
-psychopyVersion = '2022.2.2'
+psychopyVersion = '2022.2.4'
 expName = 'cpt'  # from the Builder filename that created this script
 expInfo = {
     'participant': f"{randint(0, 999999):06.0f}",
@@ -128,7 +122,7 @@ filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expNa
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name=expName, version='',
     extraInfo=expInfo, runtimeInfo=None,
-    originPath='E:\\lab\\focus-experiments\\src\\tasks\\project\\vs_eeg.py',
+    originPath='E:\\Work\\focus-experiment\\src\\tasks\\project\\vs_eeg.py',
     savePickle=True, saveWideText=True,
     dataFileName=filename)
 # save a log file for detail verbose info
@@ -764,7 +758,6 @@ for thisPractice_loop in practice_loop:
         group_id = practice_order_table[(int)(practice_idx/4)]
         show_id = show_orders[group_id][(practice_idx+1)%4] - 1 
         
-        thisExp.addData("show",order_mapping[show_id])
         
         circles = [circle_1,circle_2,circle_3,circle_4]
         rects = [rect_6,rect_9,rect_10,rect_13]
@@ -807,9 +800,7 @@ for thisPractice_loop in practice_loop:
             
             if(practice_answer==None and practice_response.status==STARTED and len(practice_response.keys)>0):
                 practice_answer = practice_response.keys[0]
-                thisExp.addData('practice_response.answer', practice_answer)
-                thisExp.addData('practice_response.reacttime', t-practice_response.tStart)
-                
+            
                 
             # bnu
             if practice_cross.status == STARTED:
@@ -1206,10 +1197,6 @@ for thisPractice_loop in practice_loop:
         for thisComponent in practice_trialComponents:
             if hasattr(thisComponent, "setAutoDraw"):
                 thisComponent.setAutoDraw(False)
-        # Run 'End Routine' code from code_2
-        
-        
-        thisExp.addData('practice_response.enable', practice_response.tStart)
         # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
         if routineForceEnded:
             routineTimer.reset()
@@ -1225,7 +1212,7 @@ for thisPractice_loop in practice_loop:
         if(correct):
             practice_response_tip.text = "正确"
         else:
-          practice_response_tip.text = "错误"
+            practice_response_tip.text = "错误"
         
         #bnu
         if correct:
@@ -1243,7 +1230,6 @@ for thisPractice_loop in practice_loop:
                     tkinter.messagebox.showinfo('错误','脑电采集设备连接断开')
                     core.quit()
          
-        thisExp.addData("correct",correct)
         # keep track of which components have finished
         practice_feedbackComponents = [practice_response_tip]
         for thisComponent in practice_feedbackComponents:
@@ -1420,6 +1406,11 @@ continueRoutine = True
 routineForceEnded = False
 # update component parameters for each repeat
 # Run 'Begin Routine' code from init_experiment
+
+experiment_idx = 0
+experiment_block_idx = 1
+experiment_trial_idx = 1
+
 for c in goodportary:#bnu
     try:
         c.send(mark_end)
@@ -1546,7 +1537,7 @@ for thisExperiment_loop in experiment_loop:
         group_id = experiment_order_table[(int)(experiment_idx/4)]
         show_id = show_orders[group_id][(experiment_idx+1)%4] - 1 
         
-        thisExp.addData("show",order_mapping[show_id])
+        record(experiment_block_idx,experiment_trial_idx,"TrueAnswer",order_mapping[show_id])
         
         circles = [experiment_circle1,experiment_circle2,experiment_circle3,experiment_circle4]
         rects = [experiment_rect6,experiment_rect9,experiment_rect10,experiment_rect13]
@@ -1561,9 +1552,6 @@ for thisExperiment_loop in experiment_loop:
                 
         
         
-        
-        experiment_idx+=1
-        thisExp.addData("index",experiment_idx)
         
         experiment_response.keys = []
         experiment_response.rt = []
@@ -1594,8 +1582,8 @@ for thisExperiment_loop in experiment_loop:
             
             if(experiment_answer==None and experiment_response.status==STARTED and len(experiment_response.keys)>0):
                 experiment_answer = experiment_response.keys[0]
-                thisExp.addData('experiment_response.answer', experiment_answer)
-                thisExp.addData('experiment_response.reacttime', t-experiment_response.tStart)
+                record(experiment_block_idx,experiment_trial_idx,"ReactTime",t-experiment_response.tStart)
+            
             
             # bnu
             if experiment_cross.status == STARTED:
@@ -1996,7 +1984,12 @@ for thisExperiment_loop in experiment_loop:
         
         correct = order_mapping[show_id]==experiment_answer
         
-        thisExp.addData("correct",correct)
+        record(experiment_block_idx,experiment_trial_idx,"Correct",correct)
+        record(experiment_block_idx,experiment_trial_idx,"Answer",experiment_answer)
+        
+        experiment_idx += 1
+        experiment_trial_idx += 1
+        
         
         #bnu
         if correct:
@@ -2014,7 +2007,6 @@ for thisExperiment_loop in experiment_loop:
                     tkinter.messagebox.showinfo('错误','脑电采集设备连接断开')
                     core.quit()
         
-        thisExp.addData('experiment_response.enable', experiment_response.tStart)
         
         
         
@@ -2122,6 +2114,8 @@ for thisExperiment_loop in experiment_loop:
     #CONDITIONAL FLAG
     experiment_stage = "experiment_rest.end"
     experiment_block_idx += 1
+    experiment_idx = 0
+    
     # the Routine "experiment_rest" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
 # completed experiment_block_nums repeats of 'experiment_loop'

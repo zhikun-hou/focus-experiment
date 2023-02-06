@@ -1,8 +1,8 @@
 ﻿#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-This experiment was created using PsychoPy3 Experiment Builder (v2022.2.2),
-    on 七月 29, 2022, at 16:05
+This experiment was created using PsychoPy3 Experiment Builder (v2022.2.4),
+    on 九月 18, 2022, at 23:58
 If you publish work using this script the most relevant publication is:
 
     Peirce J, Gray JR, Simpson S, MacAskill M, Höchenberger R, Sogo H, Kastman E, Lindeløv JK. (2019) 
@@ -12,6 +12,7 @@ If you publish work using this script the most relevant publication is:
 """
 
 # --- Import packages ---
+from loader import *
 from psychopy import locale_setup
 from psychopy import prefs
 from psychopy import sound, gui, visual, core, data, event, logging, clock, colors, layout
@@ -31,11 +32,7 @@ from psychopy.hardware import keyboard
 # Run 'Before Experiment' code from variable_init
 #创建变量时不需要$，引用时才需要
 
-# 参数接收模块 #bnu
-# 在PsychoPy Builder中测试时注释掉sys.argv并手动输入参数
-RECORD_NAME = sys.argv[1]
-DATA_ROOT = sys.argv[2]
-SUBJECT_NAME = sys.argv[3]
+
 
 # TEXT CONFIG
 guide_text = "您好，欢迎参加本次实验\n在实验过程中，屏幕中央会呈现一个“＋”\n在“＋”消失后会出现一个数字，请做如下反应：\n若数字为7则单击鼠标左键，若不是“7”则不进行任何操作\n请在保证正确的前提下尽快进行反应\n明白实验后按空格键进入练习。"
@@ -45,51 +42,47 @@ experiment_end_text = "试验结束，感谢参与\n按空格退出"
 
 # CONDITIONAL FLAG
 experiment_stage = "before_experiment"
-experiment_block_idx = 1
 
 # PRACTICE CONFIG
 practice_repeats = 8
-practice_positive_examples = 3
+practice_positive_examples = 4
 
 # EXPERIMENT CONFIG
 experiment_block_nums = 4
 experiment_block_trials = 110
 experiment_positive_examples = 80
-experiment_idx = 0
 
 
 # Ensure that relative paths start from the same directory as this script
 _thisDir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(_thisDir)
 # Store info about the experiment session
-psychopyVersion = '2022.2.2'
-expName = RECORD_NAME  # bnu
+psychopyVersion = '2022.2.4'
+expName = 'cpt'  # from the Builder filename that created this script
 expInfo = {
-    'participant': SUBJECT_NAME,#bnu
+    'participant': f"{randint(0, 999999):06.0f}",
     'session': '001',
 }
 # --- Show participant info dialog --
-""" #bnu
-dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
-if dlg.OK == False:
-    core.quit()  # user pressed cancel 
-    """
+# dlg = gui.DlgFromDict(dictionary=expInfo, sortKeys=False, title=expName)
+# if dlg.OK == False:
+#     core.quit()  # user pressed cancel
 expInfo['date'] = data.getDateStr()  # add a simple timestamp
 expInfo['expName'] = expName
 expInfo['psychopyVersion'] = psychopyVersion
 
 # Data file name stem = absolute path + name; later add .psyexp, .csv, .log, etc
-filename = DATA_ROOT + u'/%s/%s_%s' % (expInfo['participant'], expName, expInfo['date'])#bnu
+filename = _thisDir + os.sep + u'data/%s_%s_%s' % (expInfo['participant'], expName, expInfo['date'])
 
 # An ExperimentHandler isn't essential but helps with data saving
-thisExp = data.ExperimentHandler(name=expName, version='',
-    extraInfo=expInfo, runtimeInfo=None,
-    originPath='E:\\lab\\focus-experiments\\src\\tasks\\project\\cpt.py',
-    savePickle=True, saveWideText=True,
-    dataFileName=filename)
+# thisExp = data.ExperimentHandler(name=expName, version='',
+#     extraInfo=expInfo, runtimeInfo=None,
+#     originPath='E:\\Work\\focus-experiment\\src\\tasks\\project\\cpt.py',
+#     savePickle=True, saveWideText=True,
+#     dataFileName=filename)
 # save a log file for detail verbose info
-logFile = logging.LogFile(filename+'.log', level=logging.EXP)
-logging.console.setLevel(logging.WARNING)  # this outputs to the screen, not a file
+# logFile = logging.LogFile(filename+'.log', level=logging.EXP)
+# logging.console.setLevel(logging.WARNING)  # this outputs to the screen, not a file
 
 endExpNow = False  # flag for 'escape' or other condition => quit the exp
 frameTolerance = 0.001  # how close to onset before 'same' frame
@@ -285,7 +278,7 @@ practice_loop = data.TrialHandler(nReps=65535.0, method='random',
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='practice_loop')
-thisExp.addLoop(practice_loop)  # add the loop to the experiment
+# thisExp.addLoop(practice_loop)  # add the loop to the experiment
 thisPractice_loop = practice_loop.trialList[0]  # so we can initialise stimuli with some values
 # abbreviate parameter names if possible (e.g. rgb = thisPractice_loop.rgb)
 if thisPractice_loop != None:
@@ -403,6 +396,7 @@ for thisPractice_loop in practice_loop:
     
     # DATA PREPARE
     import random
+    experiment_idx = 0
     
     shownum = []
     for i in range(practice_repeats):
@@ -479,7 +473,7 @@ for thisPractice_loop in practice_loop:
         extraInfo=expInfo, originPath=-1,
         trialList=[None],
         seed=None, name='practice_block')
-    thisExp.addLoop(practice_block)  # add the loop to the experiment
+#     thisExp.addLoop(practice_block)  # add the loop to the experiment
     thisPractice_block = practice_block.trialList[0]  # so we can initialise stimuli with some values
     # abbreviate parameter names if possible (e.g. rgb = thisPractice_block.rgb)
     if thisPractice_block != None:
@@ -504,11 +498,9 @@ for thisPractice_loop in practice_loop:
         practice_pressed = False
             
         # UPDATE TEXT
-        current_num = shownum[practice_block.thisRepN]
+        current_num = shownum[experiment_idx]
         practice_number.text = current_num
         
-        
-        thisExp.addData("shownum",current_num)
         # setup some python lists for storing info about the practice_response
         gotValidClick = False  # until a click is received
         # keep track of which components have finished
@@ -535,10 +527,9 @@ for thisPractice_loop in practice_loop:
             # update/draw components on each frame
             # Run 'Each Frame' code from code_2
             
+            
             if(practice_pressed==False and practice_response.status==STARTED and practice_response.getPressed()[0]==1):
                 practice_pressed = True
-                thisExp.addData('practice_response.leftButton', 1)
-                thisExp.addData('practice_response.reacttime', t-practice_response.tStart)
             
             # *practice_cross* updates
             if practice_cross.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
@@ -563,8 +554,6 @@ for thisPractice_loop in practice_loop:
                 practice_number.tStart = t  # local t and not account for scr refresh
                 practice_number.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(practice_number, 'tStartRefresh')  # time at next scr refresh
-                # add timestamp to datafile
-                thisExp.timestampOnFlip(win, 'practice_number.started')
                 practice_number.setAutoDraw(True)
             if practice_number.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
@@ -572,8 +561,6 @@ for thisPractice_loop in practice_loop:
                     # keep track of stop time/frame for later
                     practice_number.tStop = t  # not accounting for scr refresh
                     practice_number.frameNStop = frameN  # exact frame index
-                    # add timestamp to datafile
-                    thisExp.timestampOnFlip(win, 'practice_number.stopped')
                     practice_number.setAutoDraw(False)
             # *practice_response* updates
             if practice_response.status == NOT_STARTED and t >= 0.8-frameTolerance:
@@ -618,8 +605,6 @@ for thisPractice_loop in practice_loop:
         # Run 'End Routine' code from code_2
         
         
-        
-        thisExp.addData('practice_response.enable', practice_response.tStart)
         # store data for practice_block (TrialHandler)
         # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
         if routineForceEnded:
@@ -633,13 +618,13 @@ for thisPractice_loop in practice_loop:
         # update component parameters for each repeat
         # Run 'Begin Routine' code from practice_judge
         
-        correct = practice_pressed and shownum[practice_block.thisRepN]=="7" or not practice_pressed and shownum[practice_block.thisRepN]!="7"
+        correct = practice_pressed and current_num=="7" or not practice_pressed and current_num!="7"
         if(correct):
             practice_response_tip.text = "正确"
         else:
             practice_response_tip.text = "错误"
-          
-        thisExp.addData("correct",correct)
+        
+        experiment_idx += 1
         # keep track of which components have finished
         practice_feedbackComponents = [practice_response_tip]
         for thisComponent in practice_feedbackComponents:
@@ -706,7 +691,7 @@ for thisPractice_loop in practice_loop:
             routineTimer.reset()
         else:
             routineTimer.addTime(-1.000000)
-        thisExp.nextEntry()
+#         thisExp.nextEntry()
         
     # completed practice_repeats repeats of 'practice_block'
     
@@ -816,6 +801,9 @@ routineForceEnded = False
 # CONDITIONAL FLAG
 experiment_stage = "experiment_prepare"
 
+experiment_trial_idx = 1
+experiment_block_idx = 1
+experiment_idx = 0
 # DATA PREPARE
 import random
 
@@ -893,7 +881,7 @@ experiment_loop = data.TrialHandler(nReps=experiment_block_nums, method='random'
     extraInfo=expInfo, originPath=-1,
     trialList=[None],
     seed=None, name='experiment_loop')
-thisExp.addLoop(experiment_loop)  # add the loop to the experiment
+# thisExp.addLoop(experiment_loop)  # add the loop to the experiment
 thisExperiment_loop = experiment_loop.trialList[0]  # so we can initialise stimuli with some values
 # abbreviate parameter names if possible (e.g. rgb = thisExperiment_loop.rgb)
 if thisExperiment_loop != None:
@@ -912,7 +900,7 @@ for thisExperiment_loop in experiment_loop:
         extraInfo=expInfo, originPath=-1,
         trialList=[None],
         seed=None, name='experiment_block')
-    thisExp.addLoop(experiment_block)  # add the loop to the experiment
+#     thisExp.addLoop(experiment_block)  # add the loop to the experiment
     thisExperiment_block = experiment_block.trialList[0]  # so we can initialise stimuli with some values
     # abbreviate parameter names if possible (e.g. rgb = thisExperiment_block.rgb)
     if thisExperiment_block != None:
@@ -941,10 +929,8 @@ for thisExperiment_loop in experiment_loop:
         experiment_number.text = current_num
         
         
-        experiment_idx+=1
-        thisExp.addData("index",experiment_idx)
-        thisExp.addData("shownum",current_num)
         
+        record(experiment_block_idx,experiment_trial_idx,"ShowNum",current_num)
         # setup some python lists for storing info about the experiment_response
         gotValidClick = False  # until a click is received
         # keep track of which components have finished
@@ -974,8 +960,9 @@ for thisExperiment_loop in experiment_loop:
             
             if(experiment_pressed==False and experiment_response.status==STARTED and experiment_response.getPressed()[0]==1):
                 experiment_pressed = True
-                thisExp.addData('experiment_response.leftButton', 1)
-                thisExp.addData('experiment_response.reacttime', t-experiment_response.tStart)
+                record(experiment_block_idx,experiment_trial_idx,"ReactTime",t-experiment_response.tStart)
+                record(experiment_block_idx,experiment_trial_idx,"Pressed",True)
+            
             
             # *experiment_cross* updates
             if experiment_cross.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
@@ -1000,8 +987,6 @@ for thisExperiment_loop in experiment_loop:
                 experiment_number.tStart = t  # local t and not account for scr refresh
                 experiment_number.tStartRefresh = tThisFlipGlobal  # on global time
                 win.timeOnFlip(experiment_number, 'tStartRefresh')  # time at next scr refresh
-                # add timestamp to datafile
-                thisExp.timestampOnFlip(win, 'experiment_number.started')
                 experiment_number.setAutoDraw(True)
             if experiment_number.status == STARTED:
                 # is it time to stop? (based on global clock, using actual start)
@@ -1009,8 +994,6 @@ for thisExperiment_loop in experiment_loop:
                     # keep track of stop time/frame for later
                     experiment_number.tStop = t  # not accounting for scr refresh
                     experiment_number.frameNStop = frameN  # exact frame index
-                    # add timestamp to datafile
-                    thisExp.timestampOnFlip(win, 'experiment_number.stopped')
                     experiment_number.setAutoDraw(False)
             # *experiment_response* updates
             if experiment_response.status == NOT_STARTED and t >= 0.8-frameTolerance:
@@ -1054,18 +1037,27 @@ for thisExperiment_loop in experiment_loop:
                 thisComponent.setAutoDraw(False)
         # Run 'End Routine' code from code_4
         
+        
         correct = experiment_pressed and current_num=="7" or not experiment_pressed and current_num!="7"
+        record(experiment_block_idx,experiment_trial_idx,"Correct",correct)
         
-        thisExp.addData("correct",correct)
+        if(not experiment_pressed):
+            record(experiment_block_idx,experiment_trial_idx,"Pressed",False)
+            
         
-        thisExp.addData('experiment_response.enable', experiment_response.tStart)
+        
+        
+        
+        
+        experiment_trial_idx += 1
+        experiment_idx += 1
         # store data for experiment_block (TrialHandler)
         # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
         if routineForceEnded:
             routineTimer.reset()
         else:
             routineTimer.addTime(-2.000000)
-        thisExp.nextEntry()
+#         thisExp.nextEntry()
         
     # completed experiment_block_trials repeats of 'experiment_block'
     
@@ -1163,6 +1155,7 @@ for thisExperiment_loop in experiment_loop:
     #CONDITIONAL FLAG
     experiment_stage = "experiment_rest.end"
     experiment_block_idx += 1
+    experiment_trial_idx = 1
     # the Routine "experiment_rest" was not non-slip safe, so reset the non-slip timer
     routineTimer.reset()
 # completed experiment_block_nums repeats of 'experiment_loop'
@@ -1181,12 +1174,12 @@ experiment_stage = "end_experiment"
 win.flip()
 
 # these shouldn't be strictly necessary (should auto-save)
-thisExp.saveAsWideText(filename+'.csv', delim='auto')
-thisExp.saveAsPickle(filename)
-logging.flush()
+# thisExp.saveAsWideText(filename+'.csv', delim='auto')
+# thisExp.saveAsPickle(filename)
+# logging.flush()
 # make sure everything is closed down
 if eyetracker:
     eyetracker.setConnectionState(False)
-thisExp.abort()  # or data files will save again on exit
+# thisExp.abort()  # or data files will save again on exit
 win.close()
 core.quit()

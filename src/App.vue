@@ -1,39 +1,24 @@
 <script lang="ts">
 import type { TabsPaneContext } from 'element-plus'
-import SubjectInfo from './components/SubjectInfo.vue'
-import TaskPanel from './components/TaskPanel.vue'
-
-const path = require('path')
+import { toRaw } from 'vue'
+import SubjectSelector from './components/SubjectSelector.vue'
+import TaskSelector from './components/TaskSelector.vue'
+import ScaleSelector from './components/ScaleSelector.vue'
+import Banner from './components/Banner.vue'
+const {ipcRenderer} = require("electron")
 
 export default {
   components:{
-    "subject-info":SubjectInfo,
-    "task-panel":TaskPanel,
+    "subject-selector":SubjectSelector,
+    "task-selector":TaskSelector,
+    "scale-selector":ScaleSelector,
+    "banner":Banner,
   },
   data:function(){
     return {
       activeName:"/subject",
       subject:null,
-      folderName:"",
-    }
-  },
-  computed:{
-    tasks(){
-      const tasks = JSON.parse(JSON.stringify(this.config.tasks))//深拷贝
-      const common_args = [this.config.dataRoot,this.folderName]
-      for(let collection_name in tasks){
-        const collection = tasks[collection_name]
-        for(let task_id in collection){
-          const task = collection[task_id]
-          const task_name = task["name"]
-          if("args" in task){
-            task["args"] = [collection_name+"_"+task_name,...common_args,...task["args"]]
-          } else {
-            task["args"] = [collection_name+"_"+task_name,...common_args]
-          }
-        }
-      }
-      return tasks;
+      tasks:toRaw(this.config.taskConfig)
     }
   },
   methods:{
@@ -41,33 +26,29 @@ export default {
       
     },
     updateSubjectInfo(info){
-      if(info==null){
-        this.subject = null
-        this.folderName = ""
-      } else {
-        this.subject = info
-        this.folderName = info.name  +  "_"  +  info.contact
-      }
+      this.subject = info
     }
   },
-  mounted(){
+  async mounted(){
     /*  彩蛋  */
-    console.log("【开发单位】北京师范大学 - 认知神经科学与学习国家重点实验室");
-    console.log("【开发者】李小俚导师课题组 - 侯志琨");
-    console.log("【寄语】心事浩茫连广宇，于无声处听惊雷。");
-  }
+    console.log("【开发单位】北京师范大学 - 认知神经科学与学习国家重点实验室")
+    console.log("【开发者】李小俚导师课题组 - 侯志琨")
+    console.log("【寄语】心事浩茫连广宇，于无声处听惊雷。")
+  },
 }
 
 </script>
 
 <template>
-  <div id="header">
+  <div id="main">
+    <banner :pic="this.config.banner"></banner>
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="switchPage">
-      <el-tab-pane label="被试信息" name="/subject">
-        <subject-info :callback="updateSubjectInfo"></subject-info>
+      <el-tab-pane label="选择被试" name="/subject">
+        <subject-selector :setCurrentSubject="updateSubjectInfo"></subject-selector>
       </el-tab-pane>
       <el-tab-pane v-for="(val,key,idx) in tasks" :label="key" :name="key">
-        <task-panel :options="val" :subject="this.subject"></task-panel>
+        <task-selector v-if="val.type=='task'" :options="val.options" :subject="this.subject"></task-selector>
+        <scale-selector v-else-if="val.type=='scale'" :options="val.options" :subject="this.subject"></scale-selector>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -85,7 +66,9 @@ export default {
 
 }
 
-#header {
+#main {
+  margin-top: 26px;
+  margin-bottom:26px;
 }
 .demo-tabs {
   margin:0 128px;
@@ -93,7 +76,6 @@ export default {
 .demo-tabs .el-tabs__header {
   border-radius:4px;
   padding:0 32px;
-  margin-top: 14px;
   margin-bottom:0;
   background-color: white;
 }
